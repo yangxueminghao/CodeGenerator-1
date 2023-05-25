@@ -97,10 +97,20 @@ namespace Banana.AutoCode.DbSchema
             var nullableType = Nullable.GetUnderlyingType(type);
             if (nullableType != null)
             {
-                return nullableType.Name + "?";
+                return GetTypeNameNormal(nullableType.Name + "?");
             }
 
-            return type.Name;
+            return GetTypeNameNormal(type.Name);
+        }
+        public string GetTypeNameNormal(string typeName)
+        {
+            return typeName.Replace("Byte", "byte")
+                .Replace("Decimal", "decimal")
+                .Replace("Int64", "long")
+                .Replace("Int32", "int")
+                .Replace("String", "string")
+                .Replace("Object", "object")
+                .Replace("Boolean", "bool");
         }
 
         public abstract DbType GetDbType(String rawType, Int16 precision, Int16 scale);
