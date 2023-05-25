@@ -1,9 +1,9 @@
 <#
 //------------------------------------------------------------------------------
 // <copyright file="Entity.tt">
-//    Copyright (c) 2018, https://github.com/yuanrui All rights reserved.
+//    Copyright (c) 2018, Joe All rights reserved.
 // </copyright>
-// <author>Yuan Rui</author>
+// <author>Joe</author>
 // <date>2018-04-25 18:00:00</date>
 //------------------------------------------------------------------------------
 #>
@@ -41,7 +41,7 @@ namespace Banana.Entity
     /// <summary>
     /// <#= string.IsNullOrEmpty(table.Comment) ? string.Format("Table/View [{0}] map to [{1}] entity class", table.Name, table.DisplayName) : table.Comment #>
     /// </summary>
-    public partial class <#= table.DisplayName #>Entity : ICloneable
+    public partial class <#= table.DisplayName #>
     {
 	<# 
 		foreach(var column in table.Columns)
@@ -49,62 +49,12 @@ namespace Banana.Entity
     #>
 
         /// <summary>
-        /// get or set <#= column.Comment #>
+        /// <#= column.Comment #>
         /// </summary>
-        public virtual <#= column.TypeName #> <#= column.Name #> { get; set; }
+        public <#= column.TypeName #> <#= column.Name #> { get; set; }
 	<#
 		}
-	#>
-
-        public virtual <#= table.DisplayName #>Entity CloneFrom(<#= table.DisplayName #>Entity thatObj)
-        {
-            if (thatObj == null)
-            {
-                throw new ArgumentNullException("thatObj");
-            }
-
-	<# 
-		foreach(var column in table.Columns)
-		{
-	#>
-            this.<#= column.Name #> = thatObj.<#= column.Name #>;
-	<#
-		}
-	#>
-
-            return this;
-        }
-
-        public virtual <#= table.DisplayName #>Entity CloneTo(<#= table.DisplayName #>Entity thatObj)
-        {
-            if (thatObj == null)
-            {
-                throw new ArgumentNullException("thatObj");
-            }
-
-	<# 
-		foreach(var column in table.Columns)
-		{
-	#>
-            thatObj.<#= column.Name #> = this.<#= column.Name #>;
-	<#
-		}
-	#>
-
-            return thatObj;
-        }
-
-        public virtual <#= table.DisplayName #>Entity Clone()
-        {
-            var thatObj = new <#= table.DisplayName #>Entity();
-
-            return this.CloneTo(thatObj);
-        }
-
-        object ICloneable.Clone()
-        {
-            return this.Clone();
-        }
+	#>      
     }
 }
 <# 
